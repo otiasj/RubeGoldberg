@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class InteractableItem : InteractableBase
 {
+    public bool freezeOnDrop = true;
+
     protected Rigidbody rigidBody;
     protected bool currentlyInteracting;
     protected uint itemId;
@@ -16,7 +18,7 @@ public class InteractableItem : InteractableBase
     private Quaternion rotationDelta;
     private float angle;
     private Vector3 axis;
-    private Material defaultMaterial;
+    protected Material defaultMaterial;
 
     // The controller this object is picked up by
     private GameObject anchorObject;
@@ -31,6 +33,15 @@ public class InteractableItem : InteractableBase
         interactionPoint = new GameObject().transform;
         velocityFactor /= rigidBody.mass;
         rotationFactor /= rigidBody.mass;
+        setDefaultMaterial();
+        if (freezeOnDrop)
+        {
+            freezePosition();
+        }
+    }
+
+    protected virtual void setDefaultMaterial()
+    {
         defaultMaterial = GetComponent<Renderer>().material;
     }
 
@@ -56,22 +67,63 @@ public class InteractableItem : InteractableBase
 
     public override void onGrabbedBy(GameObject anchorObject, Material grabbedMaterial)
     {
+        setPositionFrom(anchorObject);
+        setGrabbedMaterial(grabbedMaterial);
+        unFreezePosition();
+    }
+
+    protected virtual void setPositionFrom(GameObject anchorObject)
+    {
         this.anchorObject = anchorObject;
         interactionPoint.position = this.anchorObject.transform.position;
         interactionPoint.rotation = this.anchorObject.transform.rotation;
         interactionPoint.SetParent(transform, true);
-        GetComponent<Renderer>().material = grabbedMaterial;
+    }
+
+    protected virtual void unFreezePosition()
+    {
         currentlyInteracting = true;
+        this.rigidBody.constraints = RigidbodyConstraints.None;
+        this.rigidBody.freezeRotation = false;
+        this.rigidBody.isKinematic = false;
     }
 
     public override void onDroppedBy(GameObject anchorObject)
     {
+        setInactive(anchorObject);
+    }
+
+    protected virtual void setInactive(GameObject anchorObject)
+    {
         if (anchorObject == this.anchorObject)
         {
             this.anchorObject = null;
-            currentlyInteracting = false;
-            GetComponent<Renderer>().material = defaultMaterial;
+            resetMaterial();
+            if (freezeOnDrop)
+            {
+                freezePosition();
+            }
         }
+    }
+
+    protected virtual void freezePosition()
+    {
+        currentlyInteracting = false;
+        this.rigidBody.velocity = Vector3.zero;
+        this.rigidBody.angularVelocity = Vector3.zero;
+        this.rigidBody.constraints = RigidbodyConstraints.FreezePositionX | RigidbodyConstraints.FreezePositionZ | RigidbodyConstraints.FreezePositionY;
+        this.rigidBody.freezeRotation = true;
+        this.rigidBody.isKinematic = true;
+    }
+
+    protected virtual void setGrabbedMaterial(Material grabbedMaterial)
+    {
+        GetComponent<Renderer>().material = grabbedMaterial;
+    }
+
+    protected virtual void resetMaterial()
+    {
+        GetComponent<Renderer>().material = defaultMaterial;
     }
 
     public bool IsInteracting()
