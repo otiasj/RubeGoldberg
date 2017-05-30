@@ -27,6 +27,7 @@ public class MovementImpl : MonoBehaviour, Movement {
     private float lerpTime;
     private Vector3 targetLocation;
     private Vector3 dashStartPosition;
+    private float teleporterHeight;
 
     //walking
     private Vector3 movementDirection;
@@ -36,6 +37,7 @@ public class MovementImpl : MonoBehaviour, Movement {
     void Start()
     {
         laser.gameObject.SetActive(false);
+        teleporterHeight = teleporter.transform.position.y;
     }
 
     // Update is called once per frame
@@ -49,7 +51,7 @@ public class MovementImpl : MonoBehaviour, Movement {
 
     private void updateDashingPosition()
     {
-        Debug.Log("Start Position " + dashStartPosition + " dashing " + lerpTime + "->" + targetLocation);
+       //Debug.Log("Start Position " + dashStartPosition + " dashing " + lerpTime + "->" + targetLocation);
         lerpTime += 1 * dashSpeed;
         player.transform.position = Vector3.Lerp(dashStartPosition, targetLocation, lerpTime);
         if (lerpTime >= 1)
@@ -57,7 +59,7 @@ public class MovementImpl : MonoBehaviour, Movement {
             player.transform.position = targetLocation;
             isDashing = false;
             lerpTime = 0;
-            Debug.Log("End Position " + player.transform.position + "->" + targetLocation);
+            //Debug.Log("End Position " + player.transform.position + "->" + targetLocation);
         }
     }
 
@@ -131,7 +133,11 @@ public class MovementImpl : MonoBehaviour, Movement {
     {
         Vector3 cameraFromRigCenter = player.transform.position - playerCam.position;
         targetLocation = teleporter.transform.position + cameraFromRigCenter;
-        targetLocation.y = 0;
+        targetLocation.y = teleporter.transform.position.y - teleporterHeight;
+        if (targetLocation.y < 0)
+        {
+            targetLocation.y = 0;
+        }
         if (useInstantTeleportation)
         {
             player.transform.position = teleporter.transform.position;
