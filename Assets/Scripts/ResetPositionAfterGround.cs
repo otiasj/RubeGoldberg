@@ -16,11 +16,17 @@ public class ResetPositionAfterGround : MonoBehaviour
         if (col.gameObject.CompareTag("Ground"))
         {
             Invoke("ResetObject", 1f);
+            resetStars();
         }
     }
 
-    void ResetObject()
+    public void ResetObject()
     { 
         gameObject.transform.position = initialPosition;
+    }
+
+    public void resetStars()
+    {
+        GetComponent<Ball>().resetStars();
     }
 }
