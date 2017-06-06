@@ -6,6 +6,8 @@ public class Ball : MonoBehaviour
 {
     public GameObject poofPrefab;
     public GameObject[] stars;
+    public GameObject winLoseController;
+    public GameObject tutorial;
 
     private bool didWin = false;
     private int currentStarCount = 0;
@@ -38,6 +40,12 @@ public class Ball : MonoBehaviour
     {
         didWin = true;
         Object.Instantiate(poofPrefab, transform.position, Quaternion.LookRotation(Vector3.up));
+        winLoseController.GetComponent<WinLose>().onVictory();
+
+        if (tutorial != null)
+        {
+            tutorial.GetComponent<Tutorial>().onHitTarget();
+        }
     }
 
     void deleteStar(GameObject star)
@@ -55,6 +63,11 @@ public class Ball : MonoBehaviour
             foreach (GameObject star in stars)
             {
                 star.SetActive(true);
+            }
+
+            if (tutorial != null)
+            {
+                tutorial.GetComponent<Tutorial>().onBallReset();
             }
         }
     }

@@ -5,17 +5,16 @@ using UnityEngine;
 public class InteractableWrappedItem : InteractableItem
 {
     public GameObject wrappedObject;
+    public GameObject tutorial;
 
     protected override void freezePosition()
     {
         base.freezePosition();
-        //rigidBody.detectCollisions = false;
     }
 
     protected override void unFreezePosition()
     {
         base.unFreezePosition();
-        //rigidBody.detectCollisions = true;
     }
 
     protected override void setDefaultMaterial()
@@ -26,6 +25,11 @@ public class InteractableWrappedItem : InteractableItem
     protected override void setGrabbedMaterial(Material grabbedMaterial)
     {
         wrappedObject.GetComponent<Renderer>().material = grabbedMaterial;
+        
+        if (tutorial != null)
+        {
+            tutorial.GetComponent<Tutorial>().onGrabBall();
+        }
     }
 
     protected override void resetMaterial()
