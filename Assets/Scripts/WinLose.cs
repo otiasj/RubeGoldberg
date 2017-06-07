@@ -21,6 +21,6 @@ public class WinLose : MonoBehaviour {
     private void loadNextLevel()
     {
         congratulationText.SetActive(false);
-        //SteamVR_LoadLevel.Begin(nextLevel);
+        SteamVR_LoadLevel.Begin(nextLevel);
     }
 }

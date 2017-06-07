@@ -16,6 +16,7 @@ public class ViveController : MonoBehaviour
     public GameObject movementController;
     public GameObject menuController;
 
+    public bool enableMovement = true;
     public bool isNavigationController;
 
     private SteamVR_Controller.Device device;
@@ -43,7 +44,7 @@ public class ViveController : MonoBehaviour
     }
 
     private void handleGrips() {
-        if (device.GetPress(GRIPS))
+        if (device.GetPress(GRIPS) && isNavigationController && enableMovement)
         {
             movement.moveForward();
         }
@@ -67,8 +68,11 @@ public class ViveController : MonoBehaviour
         {
             if (isNavigationController)
             {
-                movement.enablePointer(true);
-                movement.aimFrom(viveController.transform);
+                if (enableMovement)
+                {
+                    movement.enablePointer(true);
+                    movement.aimFrom(viveController.transform);
+                }
             }
             else
             {
@@ -80,7 +84,10 @@ public class ViveController : MonoBehaviour
         {
             if (isNavigationController)
             {
-                movement.moveToPointer();
+                if (enableMovement)
+                {
+                    movement.moveToPointer();
+                }
             }
             else
             {
@@ -92,7 +99,10 @@ public class ViveController : MonoBehaviour
         {
             if (isNavigationController)
             {
-                movement.enablePointer(false);
+                if (enableMovement)
+                {
+                    movement.enablePointer(false);
+                }
             }
             else
             {

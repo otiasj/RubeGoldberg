@@ -72,9 +72,14 @@ public class InteractableItem : InteractableBase
         unFreezePosition();
     }
 
+    public override bool isGrabbed() {
+        return currentlyInteracting;
+    }
+
     protected virtual void setPositionFrom(GameObject anchorObject)
     {
         this.anchorObject = anchorObject;
+        currentlyInteracting = true;
         interactionPoint.position = this.anchorObject.transform.position;
         interactionPoint.rotation = this.anchorObject.transform.rotation;
         interactionPoint.SetParent(transform, true);
@@ -82,7 +87,6 @@ public class InteractableItem : InteractableBase
 
     protected virtual void unFreezePosition()
     {
-        currentlyInteracting = true;
         this.rigidBody.constraints = RigidbodyConstraints.None;
         this.rigidBody.freezeRotation = false;
         this.rigidBody.isKinematic = false;
@@ -91,12 +95,14 @@ public class InteractableItem : InteractableBase
     public override void onDroppedBy(GameObject anchorObject)
     {
         setInactive(anchorObject);
+        currentlyInteracting = false;
     }
 
     protected virtual void setInactive(GameObject anchorObject)
     {
         if (anchorObject == this.anchorObject)
         {
+            currentlyInteracting = false;
             this.anchorObject = null;
             resetMaterial();
             if (freezeOnDrop)
@@ -108,7 +114,6 @@ public class InteractableItem : InteractableBase
 
     protected virtual void freezePosition()
     {
-        currentlyInteracting = false;
         this.rigidBody.velocity = Vector3.zero;
         this.rigidBody.angularVelocity = Vector3.zero;
         this.rigidBody.constraints = RigidbodyConstraints.FreezePositionX | RigidbodyConstraints.FreezePositionZ | RigidbodyConstraints.FreezePositionY;

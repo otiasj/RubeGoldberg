@@ -16,7 +16,14 @@ public class Ball : MonoBehaviour
     {
         if (other.gameObject.CompareTag("star"))
         {
-            deleteStar(other.gameObject);
+            //no cheating, you can not get the star if the ball is still in your hand
+            if (GetComponent<BallInteractable>().isGrabbed())
+            {
+                print("Ball is grabbed");
+            } else 
+            {
+                deleteStar(other.gameObject);
+            }
         }
     }
 

@@ -7,7 +7,6 @@ public class Tutorial1 : MonoBehaviour, Tutorial {
     public GameObject text1;
     public GameObject text2;
     public GameObject text3;
-    public GameObject winLoseController;
 
     private Boolean tutorialIsOver = false;
 
@@ -19,6 +18,16 @@ public class Tutorial1 : MonoBehaviour, Tutorial {
             text2.SetActive(true);
             text3.SetActive(false);
         }
+    }
+
+    public void onShowMenu()
+    {
+
+    }
+
+    public void onPressLeftOrRight()
+    {
+
     }
 
     public void onHitTarget()

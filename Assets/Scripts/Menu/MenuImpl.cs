@@ -11,6 +11,7 @@ public class MenuImpl : MonoBehaviour, Menu
     public GameObject[] objectList;
     public string[] titles;
     public Text title;
+    public GameObject tutorial;
 
     private int currentPosition = 0;
 
@@ -35,6 +36,11 @@ public class MenuImpl : MonoBehaviour, Menu
         //Debug.Log("Menu enabled");
         objectMenu.SetActive(true);
         title.enabled = true;
+
+        if (tutorial != null)
+        {
+            tutorial.GetComponent<Tutorial>().onShowMenu();
+        }
     }
 
     public void disable() {
@@ -67,6 +73,11 @@ public class MenuImpl : MonoBehaviour, Menu
             }
         }
         title.text = titles[currentPosition];
+
+        if (tutorial != null)
+        {
+            tutorial.GetComponent<Tutorial>().onPressLeftOrRight();
+        }
     }
 
     public void navigateRight() {
@@ -85,6 +96,11 @@ public class MenuImpl : MonoBehaviour, Menu
             }
         }
         title.text = titles[currentPosition];
+
+        if (tutorial != null)
+        {
+            tutorial.GetComponent<Tutorial>().onPressLeftOrRight();
+        }
     }
 
     public void navigateSelect() {
