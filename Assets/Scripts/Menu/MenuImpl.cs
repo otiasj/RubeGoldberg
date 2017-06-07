@@ -9,6 +9,7 @@ public class MenuImpl : MonoBehaviour, Menu
     public GameObject objectMenu;
     public GameObject[] objectMenuList;
     public GameObject[] objectList;
+    public int[] numberOfObject;
     public string[] titles;
     public Text title;
     public GameObject tutorial;
@@ -23,7 +24,7 @@ public class MenuImpl : MonoBehaviour, Menu
     public void Start()
     {
         menuPositionXOffset = objectMenu.transform.localPosition.x;
-        title.text = titles[currentPosition];
+        title.text = createTitle(currentPosition);
         title.enabled = false;
     }
 
@@ -72,7 +73,7 @@ public class MenuImpl : MonoBehaviour, Menu
                 isMovingRight = true;
             }
         }
-        title.text = titles[currentPosition];
+        title.text = createTitle(currentPosition);
 
         if (tutorial != null)
         {
@@ -95,7 +96,7 @@ public class MenuImpl : MonoBehaviour, Menu
                 isMovingRight = false;
             }
         }
-        title.text = titles[currentPosition];
+        title.text = createTitle(currentPosition);
 
         if (tutorial != null)
         {
@@ -105,8 +106,21 @@ public class MenuImpl : MonoBehaviour, Menu
 
     public void navigateSelect() {
         //Debug.Log("Menu selected " + currentPosition);
-        GameObject newObject = Instantiate(objectList[currentPosition], spawnPosition.transform.position, objectMenuList[currentPosition].transform.rotation);
-        newObject.SetActive(true);
+
+        //Spawn a new object instance
+        int count = numberOfObject[currentPosition];
+        if (count > 0)
+        {
+            GameObject newObject = Instantiate(objectList[currentPosition], spawnPosition.transform.position, objectMenuList[currentPosition].transform.rotation);
+            newObject.SetActive(true);
+
+            print("before " + count + ":"+ numberOfObject[currentPosition]);
+            
+            numberOfObject[currentPosition] = count - 1;
+
+            print("after " + count + ":" + numberOfObject[currentPosition]);
+            title.text = createTitle(currentPosition);
+        }
     }
 
     private void moveMenu()
@@ -139,5 +153,10 @@ public class MenuImpl : MonoBehaviour, Menu
         } else {
             return (currentMenuObjectPosition <= stopAt);
         }
+    }
+
+    private string createTitle(int currentIndex)
+    {
+        return titles[currentIndex] + "\nx" + numberOfObject[currentIndex];
     }
 }
