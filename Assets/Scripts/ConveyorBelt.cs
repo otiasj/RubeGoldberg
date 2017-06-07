@@ -1,10 +1,12 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ConveyorBelt : MonoBehaviour {
+public class ConveyorBelt : MonoBehaviour, Switchable {
 
     public float speed = 5f;
+    private bool isRampRunning = false;
 
     //To make the texture move
     private Vector2 textureOffset = new Vector2(0f, 0f);
@@ -17,8 +19,11 @@ public class ConveyorBelt : MonoBehaviour {
 
     void Update()
     {
-        textureOffset.Set(0, Time.time * speed);
-        beltTexture.SetTextureOffset("_MainTex", textureOffset);
+        if (isRampRunning)
+        {
+            textureOffset.Set(0, Time.time * speed);
+            beltTexture.SetTextureOffset("_MainTex", textureOffset);
+        }
     }
 
     void OnCollisionStay(Collision collided)
@@ -26,6 +31,20 @@ public class ConveyorBelt : MonoBehaviour {
         //Debug.Log(GetComponent<Collider>().name + "<->" + collided.rigidbody.name);
         //Debug.DrawRay(collided.transform.position, transform.forward * speed, Color.white);
         //collided.rigidbody.MovePosition(collided.transform.position + transform.forward * Time.deltaTime * speed);
-        collided.rigidbody.AddForce(transform.forward * speed, ForceMode.Impulse);
+
+        if (isRampRunning)
+        {
+            collided.rigidbody.AddForce(transform.forward * speed, ForceMode.Impulse);
+        }
+    }
+
+    public void turnOnOff(bool isOn)
+    {
+        isRampRunning = isOn;
+    }
+
+    public bool isRunning()
+    {
+        return isRampRunning;
     }
 }
