@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Tutorial2 : MonoBehaviour, Tutorial
+public class Tutorial3 : MonoBehaviour, Tutorial
 {
     public GameObject text1;
     public GameObject text2;
@@ -12,15 +12,16 @@ public class Tutorial2 : MonoBehaviour, Tutorial
 
     public void onTeleport()
     {
-
+        if (state == 1)
+        {
+            text1.SetActive(false);
+            text2.SetActive(false);
+            text3.SetActive(true);
+            state++;
+        }
     }
 
     public void onShowTeleport()
-    {
-
-    }
-
-    public void onShowMenu()
     {
         if (state == 0)
         {
@@ -31,15 +32,14 @@ public class Tutorial2 : MonoBehaviour, Tutorial
         }
     }
 
+    public void onShowMenu()
+    {
+       
+    }
+
     public void onPressLeftOrRight()
     {
-        if (state == 1)
-        {
-            text1.SetActive(false);
-            text2.SetActive(false);
-            text3.SetActive(true);
-            state++;
-        }
+       
     }
 
     public void onHitTarget()

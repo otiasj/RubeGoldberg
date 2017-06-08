@@ -18,6 +18,8 @@ public class MovementImpl : MonoBehaviour, Movement {
     public int laserRange = 15;
     public bool useInstantTeleportation = false;
 
+    public GameObject tutorial;
+
     //movement speeds
     public float dashSpeed = 0.1f;
     public float movementSpeed = 4f;
@@ -127,6 +129,11 @@ public class MovementImpl : MonoBehaviour, Movement {
             laser.gameObject.SetActive(enabled);
             teleporter.SetActive(enabled);
         }
+
+        if (tutorial != null)
+        {
+            tutorial.GetComponent<Tutorial>().onShowTeleport();
+        }
     }
 
     public void moveToPointer()
@@ -146,6 +153,11 @@ public class MovementImpl : MonoBehaviour, Movement {
         {
             dashStartPosition = player.transform.position;
             isDashing = true;
+        }
+
+        if (tutorial != null)
+        {
+            tutorial.GetComponent<Tutorial>().onTeleport();
         }
     }
 }

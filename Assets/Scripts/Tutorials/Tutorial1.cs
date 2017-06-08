@@ -10,6 +10,16 @@ public class Tutorial1 : MonoBehaviour, Tutorial {
 
     private Boolean tutorialIsOver = false;
 
+    public void onTeleport()
+    {
+
+    }
+
+    public void onShowTeleport()
+    {
+
+    }
+
     public void onGrabBall()
     {
         if (!tutorialIsOver)

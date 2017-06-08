@@ -6,7 +6,7 @@ using UnityEngine;
 public class ConveyorBelt : MonoBehaviour, Switchable {
 
     public float speed = 5f;
-    private bool isRampRunning = false;
+    public bool isRampRunning = false;
 
     //To make the texture move
     private Vector2 textureOffset = new Vector2(0f, 0f);

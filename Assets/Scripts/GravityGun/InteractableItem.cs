@@ -5,6 +5,7 @@ using UnityEngine;
 public class InteractableItem : InteractableBase
 {
     public bool freezeOnDrop = true;
+    public GameObject[] listeners;
 
     protected Rigidbody rigidBody;
     protected bool currentlyInteracting;
@@ -70,6 +71,7 @@ public class InteractableItem : InteractableBase
         setPositionFrom(anchorObject);
         setGrabbedMaterial(grabbedMaterial);
         unFreezePosition();
+        notifyListeners();
     }
 
     public override bool isGrabbed() {
@@ -96,6 +98,7 @@ public class InteractableItem : InteractableBase
     {
         setInactive(anchorObject);
         currentlyInteracting = false;
+        notifyListeners();
     }
 
     protected virtual void setInactive(GameObject anchorObject)
@@ -142,6 +145,18 @@ public class InteractableItem : InteractableBase
         if (interactionPoint)
         {
             Destroy(interactionPoint.gameObject);
+        }
+    }
+
+    private void notifyListeners()
+    {
+        if (listeners != null)
+        {
+            foreach (GameObject listener in listeners)
+            {
+                Switchable switchable = listener.GetComponent<Switchable>();
+                switchable.turnOnOff(!currentlyInteracting);
+            }
         }
     }
 }

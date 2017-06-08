@@ -5,7 +5,7 @@ using UnityEngine;
 public class WinLose : MonoBehaviour {
 
     public GameObject congratulationText;
-    public string nextLevel = "Level1";
+    public string nextLevel;
 
 	public void onVictory()
     {
@@ -15,7 +15,10 @@ public class WinLose : MonoBehaviour {
     public void showCongratulations()
     {
         congratulationText.SetActive(true);
-        Invoke("loadNextLevel", 3);
+        if (nextLevel != null)
+        {
+            Invoke("loadNextLevel", 3);
+        }
     }
 
     private void loadNextLevel()
