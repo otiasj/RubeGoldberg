@@ -11,7 +11,7 @@ A VR game written  Unity for HTC VIVE
 The goal is to throw a ball to catch all the stars and hit the target in one throw.
 To achieve this you have at your disposal a few objects : a metal plank, a conveyor belt, a fan, a pipe and a trampoline.
 
-<a href="https://youtu.be/QuEMUI5jVWM" alt="Walktrough" target="_blank"><img src="https://github.com/otiasj/RubeGoldberg/blob/master/Docs/ss1.png" alt="Leap Motion Museum video" width="560">
+<a href="https://youtu.be/6TlmJNWB3nQ" alt="Walktrough" target="_blank"><img src="https://github.com/otiasj/RubeGoldberg/blob/master/Docs/ss1.png" alt="Leap Motion Museum video" width="560">
 <br>Click to watch a Walkthrough Video</a>
 
 Here are few screenshots of the result of the project.
