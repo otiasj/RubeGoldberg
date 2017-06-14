@@ -19,11 +19,7 @@ public class ResizeToRoomScale : MonoBehaviour
             var width = Mathf.Abs(corners[0].v0 - corners[1].v0) / meshWidth * scale.x;
             var length = Mathf.Abs(corners[0].v2 - corners[3].v2) / meshHeight * scale.y;
             scale.Set(length, width, scale.z);
-            transform.localScale = scale;
-
-            print("localscale " + transform.localScale);
-
-            
+            transform.localScale = scale;                    
         }
     }
 }

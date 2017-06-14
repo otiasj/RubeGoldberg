@@ -41,6 +41,7 @@ public class ConveyorBelt : MonoBehaviour, Switchable {
     public void turnOnOff(bool isOn)
     {
         isRampRunning = isOn;
+        this.gameObject.GetComponent<BoxCollider>().enabled = isOn;
     }
 
     public bool isRunning()
